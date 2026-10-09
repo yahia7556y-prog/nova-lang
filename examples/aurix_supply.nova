@@ -1,0 +1,15 @@
+// AURIX - 11M Hard Cap
+state AURIX {
+  totalSupply: i64 @mutable @max(11_000_000)
+  owner: address @immutable
+}
+
+rule supply_cap {
+  check: totalSupply <= 11_000_000
+  message: "AURIX 11M cap exceeded"
+}
+
+safe change mint(amount: i64) {
+  enforce supply_cap
+  totalSupply = totalSupply + amount
+}
